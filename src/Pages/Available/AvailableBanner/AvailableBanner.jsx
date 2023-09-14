@@ -5,24 +5,21 @@ import { FaXmark } from "react-icons/fa6";
 import moment from 'moment';
 const AvailableBanner = () => {
     const trainCart = localStorage.getItem('trainCart')
-    const searchInfo = JSON.parse(trainCart)
-    const [info, setinfo] = useState(searchInfo)
+    const searchInfo = JSON.parse(trainCart) || { from: '', to: '', date: '', trainClass: '' };
     
     const [modify, setModify] = useState(false);
     const handleSearch = event => {
-        console.log('clicked')
-        event.preventDefault()
+        event.preventDefault();
 
         const form = event.target;
-
         const From = form.from.value;
         const To = form.to.value;
-        const Date = moment(form.date.value).format("D MMMM, YYYY")
+        const Date = moment(form.date.value).format("D MMMM, YYYY");
         const Train = form.trainClass.value;
 
-        const info = { From, To, Date, Train }
-        localStorage.setItem('trainCart', JSON.stringify(info))
-        console.log(info)
+        const newInfo = { from: From, to: To, date: Date, trainClass: Train };
+        localStorage.setItem('trainCart', JSON.stringify(newInfo));
+    
     }
     return (
         <section className="h-44 bg-slate-200 mt-32 flex justify-between items-center px-32">
@@ -83,8 +80,8 @@ const AvailableBanner = () => {
                     <div className='flex items-center gap-5'>
                         <img className='w-24 ' src={logo} alt="" />
                         <span>
-                            <p className='text-[#DA924E]'>{trainCart} - {info.to}</p>
-                            <p>{info.date}</p>
+                            <p className='text-[#DA924E]'>{searchInfo.from} - {searchInfo.to}</p>
+                            <p>{searchInfo.date}</p>
                         </span>
                     </div>
                     <div className='flex gap-5'>
